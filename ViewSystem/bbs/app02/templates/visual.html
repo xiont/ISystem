@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block public_list %}
+
+    <!--   <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin"
+                           src="c"
+                           marginwidth="0" marginheight="0" style="height:350px; width: 100%;" scrolling="no">
+                   </iframe>
+       <iframe sandbox="allow-popups allow-scripts allow-forms allow-same-origin"
+                           src="/visual/oday_line/"
+                           marginwidth="0" marginheight="0" style="height:400px; width: 100%;" scrolling="no">
+                   </iframe>   -->
+    <iframe  id="myframe"
+             marginwidth="0" marginheight="0" style="height:350px; width: 100%;" scrolling="no">
+    </iframe>
+    <script> function changeSrc() { document.getElementById("myframe").src="/visual/oday_pie/"; }
+    function changeSrc2() { document.getElementById("myframe").src="/visual/oday_line/"; }</script>
+
+    <div class="control-group">
+        <button onclick="changeSrc()">pie</button>
+        <button onclick="changeSrc2()">line</button>
+    </div>
+{% endblock %}

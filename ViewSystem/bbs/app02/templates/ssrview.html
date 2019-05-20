@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+{% block head %}
+    <script type="text/javascript" src="/static/js/ichart.1.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/my.js"> </script>
+    <script type="text/javascript" src="/static/js/tab.js"> </script>
+    <script>
+     $(document).ready(function(e){
+            /*点我 弹出内容*/
+            $('#recent_bug').click(function(){
+                if($('#bug').is(':hidden')){
+                    $('#bug').show();
+                }else{
+                    $('#bug').hide();
+                }
+            });
+        });
+
+     $(document).ready(function(e){
+         /*点我 弹出内容*/
+         $('#recent_event').click(function(){
+             if($('#event').is(':hidden')){
+                 $('#event').show();
+             }else{
+                 $('#event').hide();
+             }
+         });
+     });
+
+    $(function(){
+        $(".tab_menu ul li").click(function(){
+            $(this).addClass("on").siblings().removeClass("on"); //切换选中的按钮高亮状态
+            var index=$(this).index(); //获取被按下按钮的索引值，需要注意index是从0开始的
+            $(".tab_box > div").eq(index).show().siblings().hide(); //在按钮选中时在下面显示相应的内容，同时隐藏不需要的框架内容
+        });
+    });
+    $(function(){
+        var oBugType = $("#BugType");
+        oBugType.click(function(){
+            $.ajax({
+                        url:'/ssrview/1/',
+                        type:'post',
+                        dataType:'text',
+                        data:null,
+                        error:function(){
+                            alert('error');
+                        },
+                        success: function (str) {
+                            json = eval('('+str+')');
+                            $("#left").prepend("<div id='Zhuxin2d'></div>");
+                            Zhuxin2d(json['title'],json['data']);
+
+                        }
+                    });
+        });
+    });
+    $(function(){
+        var oKeyWord = $("#KeyWord");
+        var oKeyStr = $("input[name='KeyStr']");
+        oKeyWord.click(function(){
+            $.ajax({
+                url:'/ssrview/2/',
+                type:'post',
+                dataType:'text',
+                data:{'KeyStr':oKeyStr.val()},
+                error:function(){
+                    alert('error');
+                },
+                success: function (str) {
+                    json = eval('('+str+')');
+                    $("#left").prepend("<div id='Pie3d'></div>");
+                    Pie3d(json['title'],json['data']);
+
+                }
+            });
+        });
+    });
+
+    $(function(){
+        var oBugNum7 = $("#BugNum7");
+        oBugNum7.click(function(){
+            $.ajax({
+                url:'/ssrview/4/',
+                type:'post',
+                dataType:'text',
+                data:null,
+                error:function(){
+                    alert('error');
+                },
+                success: function (str) {
+                    json = eval('('+str+')');
+                    $("#left").prepend("<div id='Zhexian1'></div>");
+                    Zhexian1(json['value'],json['lables'],json['title']);
+                }
+            });
+        });
+    });
+
+    $(function(){
+        var oEventNum7 =$("#EventNum7");
+        oEventNum7.click(function(){
+            $.ajax({
+                url:'/ssrview/3/',
+                type:'post',
+                dataType:'text',
+                data:null,
+                error:function(){
+                    alert('error');
+                },
+                success: function (str) {
+                    json = eval('('+str+')');
+                    $("#left").prepend("<div id='Zhexian2'></div>");
+                    Zhexian2(json['value'],json['lables'],json['title']);
+                }
+            });
+        });
+    });
+
+    $(function(){
+        var oEvent =$("#EventClass");
+        oEvent.click(function(){
+            $.ajax({
+                url:'/ssrview/5/',
+                type:'post',
+                dataType:'text',
+                data:null,
+                error:function(){
+                    alert('error');
+                },
+                success: function (str) {
+                    json = eval('('+str+')');
+                    $("#left").prepend("<div id='Zhuhen1'></div>");
+                    Zhuhen1(json['data'],json['title']);
+                }
+            });
+        });
+    });
+
+    $(function(){
+        var oBugPlatform =$("#BugPlatform");
+        oBugPlatform.click(function(){
+            $.ajax({
+                url:'/ssrview/6/',
+                type:'post',
+                dataType:'text',
+                data:null,
+                error:function(){
+                    alert('error');
+                },
+                success: function (str) {
+                    json = eval('('+str+')');
+                    $("#left").prepend("<div id='Huanxin'></div>");
+                    Huanxin(json['data'],json['title']);
+                }
+            });
+        });
+    });
+
+     $(function(){
+         var oBugTime =$("#BugTime");
+         oBugTime.click(function(){
+             var Intime = $("input[name='InTime']").val();
+             var Totime = $("input[name='ToTime']").val();
+             $.ajax({
+                 url:'/ssrview/7/',
+                 type:'post',
+                 dataType:'text',
+                 data:{"InTime":Intime,"ToTime":Totime},
+                 error:function(){
+                     alert('error');
+                 },
+                 success: function (str) {
+                     json = eval('('+str+')');
+                     $("#left").prepend("<div id='Tiao'></div>");
+                     Tiao(json['data'],json['title']);
+                 }
+             });
+         });
+     });
+
+     $(function(){
+         var oAna =$("#Ana");
+         oAna.click(function(){
+             var EventKey = $("input[name='EventKey']").val();
+             var Intime = $("input[name='InTime0']").val();
+             var Totime = $("input[name='ToTime0']").val();
+             $.ajax({
+                 url:'/ssrview/8/',
+                 type:'post',
+                 dataType:'text',
+                 data:{"InTime":Intime,"ToTime":Totime,"EventKey":EventKey},
+                 error:function(){
+                     alert('error');
+                 },
+                 success: function (str) {
+                     json = eval('('+str+')');
+                     $("#left").prepend("<div id='Tiao'></div>");
+                     Tiao(json['data'],json['title']);
+                 }
+             });
+         });
+     });
+    </script>
+    <style>
+        #left{
+            width: 900px;
+            padding-top: 80px;
+            padding-left: 100px;
+            float: left;
+        }
+        #right{
+            width:570px;
+            float: left;
+            position: fixed;
+            margin-left: 950px;
+            padding-top: 20px;
+            padding-right: 50px;
+        }
+
+        .tab{
+            width: 100%;
+            margin-left: 50px;
+        }
+        .tab .tab_menu{
+            height: 60px;
+            width: 100%;
+        }
+        .tab .tab_menu ul li{
+            width: 60px;
+            float: left;
+            display: block;
+            text-align: center;
+            line-height: 30px;
+            border: 2px solid #00AFEF;
+        }
+        .tab .tab_menu ul li.on{
+            background: #999;
+        }
+        .tab .tab_box > div{
+            width: 500px;
+            height:500px;
+            margin-left: 30px;
+            border:2px solid #00AFEF;
+            font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+            font-size: 20px;
+            text-indent: 40px;
+            padding: 20px 20px 20px 20px;
+            display: none;
+        }
+        .tab .tab_box > div:first-child{
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block public_list %}
+
+    <div id="left">
+    </div>
+    <div id="right" style="border: 3px solid #00AFEF;">
+        <h2 style="text-align: center;font-family: Arial, 微软雅黑;color: #00AFEF;">操控面板</h2>
+
+        <div class="tab" style="background-color: transparent;">
+             <div class="tab_menu">
+             <ul style="width: 600px;">
+             <li style="width: 160px;" class="on">监控-事件</li>
+             <li style="width: 160px;">监控-漏洞</li>
+             <li style="width: 160px;">监控-平台</li>
+
+             <li style="width: 120px;">漏洞分类</li>
+             <li style="width: 120px;">关键词统计</li>
+            <li style="width: 120px;">事件分类</li>
+            <li style="width: 120px;">时间-数量</li>
+            <li style="width: 120px;">事件分析</li>
+             </ul>
+             </div>
+             <div class="tab_box">
+
+                        <div>
+            <h2 style="text-align: center;">7天安全事件数量统计</h2>
+            <p>该图表可以用来监测近期安全事件的数量变化，也可以用于监测爬虫系统安全事件部分是否正常运行</p>
+            <input id="EventNum7" value="提交"type="button">
+        </div>
+
+             <div>
+            <h2 style="text-align: center;">7天漏洞数量统计</h2>
+            <p>该图表可以用来监测近期漏洞的数量变化，也可以用于监测爬虫漏洞部分是否正常运行</p>
+            <input id="BugNum7" value="提交"type="button">
+        </div>
+
+                         <div>
+            <h2 style="text-align: center;">漏洞发布平台统计</h2>
+            <p>该图表可以用来监测近期各平台漏洞的数量变化，也可以用于监测爬虫各平台的部分是否正常运行</p>
+        <input id="BugPlatform" value="提交"type="button">
+        </div>
+
+
+             <div><h2 style="text-align: center;">漏洞类型统计</h2>
+            <p>该图表展示的是多种类型漏洞在本平台的统计量，该分类标准是在漏洞获取的过程中已经被源网站分类过了。</p>
+            <input id="BugType" value="提交" type="button">
+        </div>
+
+             <div><h2 style="text-align: center;">漏洞关键词统计</h2>
+                <input name="KeyStr" type="text" style="width: 400px; height: 200px;">
+                <input id="KeyWord" value="提交"type="button">
+            <p>说明：输入关键词字符串，分隔符为英文";"例如:"Windows;Linux;MySQL;Microsoft;php;Oracle;Apple;Apache;永恒之蓝"</p>
+        </div>
+
+
+
+            <div>
+                <h2 style="text-align: center;">安全事件分类统计</h2>
+            <p>该图表可以用来监测近期安全事件态势的变化，由于漏洞的分类已经由各平台分类好了，然而对于安全事件大多只是以新闻的方式笼统地展示出来，我们通过朴素贝叶斯的训练集分类方法对其进行了简单的分类。</p>
+            <input id="EventClass" value="提交"type="button">
+            </div>
+
+
+
+             <div>
+            <h2 style="text-align: center;">漏洞数量-时间统计</h2>
+            InternalTime(按天):<input name="InTime" type="text">
+            TotalTime(按天):<input name="ToTime" type="text">
+            <p>该图表可以用来自定义时间与漏洞数量的关系，具有极大地自主性，而且使用方便
+            </p>
+            <p>InternalTime表示的是坐标的时间间隔，TotalTime表示的是总的时间范围。
+            </p>
+        <input id="BugTime" value="提交"type="button">
+        </div>
+
+
+            <div>
+            <h2 style="text-align: center;">事件-分析</h2>
+                事件关键词：<input name="EventKey" type="text">
+            InternalTime(按天):<input name="InTime0" type="text">
+            TotalTime(按天):<input name="ToTime0" type="text">
+            <p>该图表可以用来自定义时间与漏洞数量的关系，具有极大地自主性，而且使用方便
+            </p>
+            <p>InternalTime表示的是坐标的时间间隔，TotalTime表示的是总的时间范围。
+            </p>
+        <input id="Ana" value="提交"type="button">
+        </div>
+
+             </div>
+            <div id="recent_bug" style="border: 2px solid #00AFEF;float: left; width: 200px;margin-left: 30px;text-align: center;"><a style="font-family: Arial, 微软雅黑;font-size: 20px; ">最近漏洞</a></div>
+            <div id="recent_event" style="border: 2px solid #00AFEF;float: left; width: 200px;margin-left: 83px;text-align: center;"><a style="font-family: Arial, 微软雅黑;font-size: 20px; ">最近安全事件</a></div>
+             </div>
+    </div>
+    <div id="event" style="height: 400px;width:900px;display: none; z-index: 100; margin: 100px 300px; position: fixed;">
+    <div class="col-md-6 span_12" style="width: 900px;">
+        <div class="activity_box"style="width: 850px;">
+            <h3>安全事件</h3>
+            <div class="scrollbar scrollbar1" id="style-2">
+                {% for item in recent_event %}
+                    <div class="activity-row">
+                        <div class="col-xs-10 activity-desc">
+                            <h5>{{ item.event_platform }}</h5>
+                            <p><a href="{{ item.event_url }}">{{ item.event_title }}</a></p>
+                        </div>
+                        <div class="col-xs-2 activity-desc1"><h6>{{ item.event_time }}</h6></div>
+                        <div class="clearfix"> </div>
+                    </div>
+                {% endfor %}
+                <p align="right"><a href="/event/">更多</a></p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div id="bug" style="height: 400px;width:900px;display: none; z-index: 100; margin: 100px 300px; position: fixed;">
+    <div class="col-md-6 span_12"  style="width: 900px;">
+        <div class="activity_box activity_box1" style="width: 850px;">
+            <h3>漏洞</h3>
+            <div class="scrollbar scrollbar1" id="style-2">
+                {% for item in recent_bug %}
+                    <div class="activity-row">
+                        <div class="col-xs-10 activity-desc">
+                            <h5>{{ item.bug_platform }}</h5>
+                            <p><a href="{{ item.bug_url }}">{{ item.bug_name }}</a></p>
+                        </div>
+                        <div class="col-xs-2 activity-desc1"><h6>{{ item.bug_time }}</h6></div>
+                        <div class="clearfix"> </div>
+                    </div>
+                {% endfor %}
+                <p align="right"><a href="/bug/">更多</a></p>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+{% endblock %}

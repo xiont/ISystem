@@ -1,0 +1,12 @@
+#blog-link{
+color: #3d3937;
+text-decoration:none;
+}
+#blog-link:hover {
+color: #e6a12a;
+text-decoration:none; 
+} 
+#blog-link:active {
+color: #c45100;
+text-decoration:none; 
+} 

@@ -1,0 +1,34 @@
+{% extends "base2.html" %}
+{% load comments %}
+{% block public_list %}
+    <h1>Oday_bank实时安全事件</h1>
+    {%for list in secret_list %}
+        {{ list.time }}:<a href="{{ list.link }}" target="_blank">{{ list.title|truncatechars:35 }}</a>
+        </br>
+    {% endfor %}
+
+    {% if secret_list.has_other_pages %}
+        <ul class="pagination">
+
+            {% if secret_list.has_previous %}
+                <li><a href="?page={{ secret_list.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+
+            {% for i in secret_list.paginator.page_range_ext %}
+                {% if secret_list.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if secret_list.has_next %}
+                <li><a href="?page={{ secret_list.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

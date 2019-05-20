@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load comments %}
+{% block public_list %}
+
+<div class="jumbotron">
+                <h2 contenteditable="true">【{{ bbs.sign }}】{{ bbs.title }}</h2>
+                <p contenteditable="true">{{ bbs.content|safe }}</p>
+                </br>
+
+    <form action="/detail/{{ bbs.id}}/sub_comment/" method="POST" role="form">{% csrf_token %}
+        <textarea name='comment' style="height:150px;width:50%;"> </textarea>
+        <button type="submit">评论</button>
+    </form>
+
+    {%for comment in comment_lists%}
+    <div class="activity-row activity-row1">
+										<div class="col-xs-3 activity-img"><div class="profile_img"> <span style="background:url( /../{{ comment.photo }}) no-repeat center"></span> </div><span>{{comment.user}}</span><span>{{comment.submit_date|date:"Y年,m月,j日,f"}}</span></div>
+										<div class="col-xs-5 activity-img1">
+											<div class="activity-desc-sub">
+												<h5>我想说：</h5>
+												<p>{{comment.comment|safe}}</p>
+											</div>
+										</div>
+										<div class="col-xs-4 activity-desc1"></div>
+										<div class="clearfix"> </div>
+									</div>
+{%endfor%}
+                <p><a class="btn" href="#" contenteditable="true">查看更多 »</a></p>
+
+</div>
+{% endblock %}

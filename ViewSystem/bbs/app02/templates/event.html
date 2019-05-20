@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block head %}
+    <script>
+
+    $(document).ready(function(){
+        if('{{ search }}'){
+        var str0 = $("tbody").html();
+        re = new RegExp("{{ search }}","g");
+        var strr ='<strong style="color: red">{{ search }}</strong>';
+        var str1 = str0.replace(re,strr);
+        $("tbody").html(str1);}
+
+    });
+    </script>
+{% endblock %}
+{% block public_list %}
+    <fieldset>
+
+        <div class="input-group form-group" style="text-align:center;">
+            <form method="get" action=''>
+                <input type="text" name="search" class="form-control" align="center" />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary">搜索</button>
+          </span></form>
+        </div>
+
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>标题</th>
+                <th>时间</th>
+                <th>平台</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in eventlist %}
+                <tr class="active">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a id="a" href="{{ item.event_url }}">{{item.event_title}}</a></td>
+                    <td>{{item.event_time}}</td>
+                    <td>{{item.event_platform}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if eventlist.has_other_pages %}
+            <ul class="pagination">
+
+                {% if eventlist.has_previous %}
+                    <li><a href="?page={{ eventlist.previous_page_number }}&search={{ search }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                {% endif %}
+
+                {% for i in eventlist.paginator.page_range_ext %}
+                    {% if eventlist.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}&search={{ search }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if eventlist.has_next %}
+                    <li><a href="?page={{ eventlist.next_page_number }}&search={{ search }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+{% endblock %}

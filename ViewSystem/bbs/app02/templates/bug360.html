@@ -1,0 +1,31 @@
+{% extends "base2.html" %}
+{% load comments %}
+{% block public_list %}
+    <h1>360播报中心漏洞</h1>
+    {%for list in bug360_list %}
+        {{ list.time }}:<a href="{{ list.link }}" target="_blank">{{ list.title|truncatechars:40  }}</a>&nbsp;{{ list.source }}
+        </br>
+    {% endfor %}
+
+    {% if bug360_list.has_other_pages %}
+        <ul class="pagination">
+            {% if bug360_list.has_previous %}
+                <li><a href="?page={{ bug360_list.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in bug360_list.paginator.page_range_ext %}
+                {% if bug360_list.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if bug360_list.has_next %}
+                <li><a href="?page={{ bug360_list.next_page_number }}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

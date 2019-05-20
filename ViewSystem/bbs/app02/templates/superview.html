@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block public_list %}
+    <link href="/static/mycss.css" rel='stylesheet' type='text/css' />
+    <script src="/static/myjs.js" ></script>
+
+    <div class="col-md-6 span_12">
+        <div class="activity_box">
+            <h3>安全事件</h3>
+            <div class="scrollbar scrollbar1" id="style-2">
+                {% for item in recent_event %}
+                    <div class="activity-row">
+                        <div class="col-xs-10 activity-desc">
+                            <h5>{{ item.event_platform }}</h5>
+                            <p><a href="{{ item.event_url }}">{{ item.event_title }}</a></p>
+                        </div>
+                        <div class="col-xs-2 activity-desc1"><h6>{{ item.event_time }}</h6></div>
+                        <div class="clearfix"> </div>
+                    </div>
+                {% endfor %}
+                <p align="right"><a href="/event/">更多</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 span_12">
+        <div class="activity_box activity_box1">
+            <h3>漏洞</h3>
+            <div class="scrollbar scrollbar1" id="style-2">
+                {% for item in recent_bug %}
+                    <div class="activity-row">
+                        <div class="col-xs-10 activity-desc">
+                            <h5>{{ item.bug_platform }}</h5>
+                            <p><a href="{{ item.bug_url }}">{{ item.bug_name }}</a></p>
+                        </div>
+                        <div class="col-xs-2 activity-desc1"><h6>{{ item.bug_time }}</h6></div>
+                        <div class="clearfix"> </div>
+                    </div>
+                {% endfor %}
+                <p align="right"><a href="/bug/">更多</a></p>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="graphs">
+            <h3 class="blank1" align="center">统计图表</h3>
+            <div class="graph_box">
+                <div class="col-md-6 grid_2">
+                    <div class="grid_1" id = "linephoto">
+                        <h4>最近7天平台安全事件统计量</h4>
+                        <script>linephoto({{event_num}});</script>
+                    </div>
+                </div>
+                <div class="col-md-6 grid_2">
+                    <div class="grid_1" id = "linephoto2">
+                        <h4>最近七天平台漏洞统计量</h4>
+                        <script>linephoto2({{ bug_num }})</script>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+
+        <div class="graph_box1">
+            <div class="col-md-6 grid_2 grid_2_bot">
+                <div class="grid_1">
+                    <h4>近7天安全信息大致趋势（仅供参考）</h4>
+                    <div class="legend">
+                        <div id="os-Mac-lbl2">软硬件设备<span>{{ percentage.3 }}</span></div>
+                        <div id="os-Win-lbl">信息内容 <span>{{ percentage.2 }}</span></div>
+                        <div id="os-Mac-lbl">有害程序 <span> {{ percentage.0 }}</span></div>
+                        <div id="os-Other-lbl">网络攻击<span>{{ percentage.1 }}</span></div>
+                    </div>
+                    <canvas id="pie" height="315" width="470" style="width: 470px; height: 315px;"></canvas>
+                    <script>
+                        var pieData = [
+                            {
+                                value: {{ eventtype_num.badpgm }},
+                                color:"#ef553a"
+                            },
+                            {
+                                value : {{ eventtype_num.intattack }},
+                                color : "#00aced"
+                            },
+                            {
+                                value : {{ eventtype_num.information }},
+                                color : "#8BC34A"
+                            },
+                            {
+                                value : {{ eventtype_num.equipment }},
+                                color : "#ffff00"
+                            }
+                        ];
+                        new Chart(document.getElementById("pie").getContext("2d")).Pie(pieData);
+                    </script>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 grid_2 grid_2_bot">
+                <div class="grid_1">
+                    <h4>近7天各网站漏洞发布情况</h4>
+                    <canvas id="radar" height="300" width="470" style="width: 470px; height: 300px;"></canvas>
+                    <script>
+                        var radarChartData = {
+                            labels : ["CNVD({{ bug7_list.0 }})","CNNVD({{ bug7_list.1 }})","Seebug({{ bug7_list.2 }})","Exploite({{ bug7_list.3 }})","360播报({{ bug7_list.4 }})","",""],
+                            datasets : [
+                                {
+                                    fillColor : "#00aced",
+                                    strokeColor : "#00aced",
+                                    pointColor : "#00aced",
+                                    pointStrokeColor : "#fff",
+                                    data : {{ bug7_list }}
+                                },
+                            ]
+
+                        };
+                        new Chart(document.getElementById("radar").getContext("2d")).Radar(radarChartData);
+                    </script>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+
+
+{% endblock %}

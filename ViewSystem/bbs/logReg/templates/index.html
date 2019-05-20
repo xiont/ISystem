@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block public_list %}
+
+{% for bbs in bbs_list %}
+    <p class="lead text-center">
+
+    <div class="activity-row">
+										<div class="col-xs-1 activity-img">
+{#                                            <img src="../{{ bbs.image }}" class="img-responsive" alt="">#}
+                                    <div class="profile_img">
+										<span style="background:url(../{{ bbs.image }}) no-repeat center"> </span>
+
+										<div class="clearfix"></div>
+									</div>	</div>
+										<div class="col-xs-6 activity-desc">
+											<h4><a href="/detail/{{bbs.id}}">【{{ bbs.sign }}】{{ bbs.title }}</a></h4>
+											<p>{{ bbs.summary }}</p>
+										</div>
+                                        <div class="col-xs-2 activity-desc1"><h5>{{ bbs.author }}</h5></div>
+										<div class="col-xs-2 activity-desc1"><h5>{{ bbs.time }}</h5></div>
+										<div class="clearfix"> </div>
+									</div>
+{% endfor %}
+
+
+    <div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			 <button class="btn btn-block btn-inverse btn-large" type="button"><a href="/sub_bbs/">发帖</a></button>
+		</div>
+	</div>
+</div>
+{% endblock %}

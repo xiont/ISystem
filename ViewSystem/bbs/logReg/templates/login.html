@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block public_list %}
+
+<form method="post" action="." class = "form-signin" role="form">
+    {% csrf_token %}
+
+        <div class="graphs">
+					<div class="sign-in-form">
+						<div class="sign-in-form-top">
+							<p><span>Sign In to</span> <a href="/index/">Our Club</a></p>
+						</div>
+						<div class="signin">
+							<div class="signin-rit">
+								<span class="checkbox1">
+									 <label class="checkbox"><input type="checkbox" name="checkbox" checked="">Forgot Password ?</label>
+								</span>
+								<p><a href="#">Click Here</a> </p>
+								<div class="clearfix"> </div>
+							</div>
+
+							<div class="log-input">
+								<div class="log-input-left">
+								   <input name="username" type="text" class="user" value="Yourname" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Your username:';}"/>
+								</div>
+								<span class="checkbox2">
+									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
+								</span>
+								<div class="clearfix"> </div>
+							</div>
+							<div class="log-input">
+								<div class="log-input-left">
+								   <input name="password" type="password" class="lock" value="password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email address:';}"/>
+								</div>
+								<span class="checkbox2">
+									 <label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i></label>
+								</span>
+								<div class="clearfix"> </div>
+							</div>
+                             {% if form.errors %}
+            <br>
+            <div class="alert alert-danger" role="alert">
+                <p>Your username and password didn't match. Please try again.</p>
+            </div>
+        {% endif %}
+							<input type="submit" value="Login to your account">
+
+						</div>
+						<div class="new_people">
+							<h4>For New People</h4>
+							<p>Having hands on experience in creating innovative designs,I do offer design
+								solutions which harness.</p>
+							<a href="/regist/">Register Now!</a>
+						</div>
+					</div>
+				</div>
+
+        <input type="hidden" name="next" value="/" />
+    </form>
+
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "base2.html" %}
+{% block public_list %}
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        function piephoto( dataset ) {
+            var width = 350;
+            var height = 350;
+            var svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+            var dataset = dataset;
+
+//转换数据
+            var pie = d3.layout.pie() //创建饼状图
+                    .value(function (d) {
+                        return d[1];
+                    });//值访问器
+//dataset为转换前的数据 piedata为转换后的数据
+            var piedata = pie(dataset);
+
+//绘制
+            var outerRadius = width / 3;
+            var innerRadius = 0;//内半径和外半径
+
+//创建弧生成器
+            var arc = d3.svg.arc()
+                    .innerRadius(innerRadius)
+                    .outerRadius(outerRadius);
+            var color = d3.scale.category20();
+//添加对应数目的弧组
+            var arcs = svg.selectAll("g")
+                    .data(piedata)
+                    .enter()
+                    .append("g")
+                    .attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
+//添加弧的路径元素
+            arcs.append("path")
+                    .attr("fill", function (d, i) {
+                        return color(i);
+                    })
+                    .attr("d", function (d) {
+                        return arc(d);//使用弧生成器获取路径
+                    });
+//添加弧内的文字
+            arcs.append("text")
+                    .attr("transform", function (d) {
+                        var x = arc.centroid(d)[0] * 1.4;//文字的x坐标
+                        var y = arc.centroid(d)[1] * 1.4;
+                        return "translate(" + x + "," + y + ")";
+                    })
+                    .attr("text-anchor", "middle")
+                    .text(function (d) {
+                        //计算市场份额的百分比
+                        var percent = Number(d.value) / d3.sum(dataset, function (d) {
+                                    return d[1];
+                                }) * 100;
+                        //保留一位小数点 末尾加一个百分号返回
+                        return percent.toFixed(1) + "%";
+                    });
+//添加连接弧外文字的直线元素
+            arcs.append("line")
+                    .attr("stroke", "black")
+                    .attr("x1", function (d) {
+                        return arc.centroid(d)[0] * 2;
+                    })
+                    .attr("y1", function (d) {
+                        return arc.centroid(d)[1] * 2;
+                    })
+                    .attr("x2", function (d) {
+                        return arc.centroid(d)[0] * 2.2;
+                    })
+                    .attr("y2", function (d) {
+                        return arc.centroid(d)[1] * 2.2;
+                    });
+//添加弧外的文字元素
+            arcs.append("text")
+                    .attr("transform", function (d) {
+                        var x = arc.centroid(d)[0] * 2.5;
+                        var y = arc.centroid(d)[1] * 2.5;
+                        return "translate(" + x + "," + y + ")";
+                    })
+                    .attr("text-anchor", "middle")
+                    .text(function (d) {
+                        return d.data[0];
+                    });
+        }
+
+
+    </script>
+
+
+    <script language="javascript" type="text/javascript">
+
+        var dataset30 = [["数据泄露", {{ numlist30.1 }}], ["漏洞", {{ numlist30.0 }}], ["其他事件", {{ numlist30.2 }}]];
+        var dataset60 = [["数据泄露", {{ numlist60.1 }}], ["漏洞", {{ numlist60.0 }}], ["其他事件", {{ numlist60.2 }}]];
+        var dataset90 = [["数据泄露", {{ numlist90.1 }}], ["漏洞", {{ numlist90.0 }}], ["其他事件", {{ numlist90.2 }}]];
+    </script>
+    <p><strong>______________<strong>最近30天数据:</strong>____________________________<strong>最近60天数据:</strong>____________________________<strong>最近90天数据:</strong>______________</strong></p>
+    <script>piephoto(dataset30);</script>
+    <script>piephoto(dataset60);</script>
+    <script>piephoto(dataset90);</script>
+{% endblock %}

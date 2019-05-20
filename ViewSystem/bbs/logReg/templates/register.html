@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block public_list %}
+ <!--<h1 align="center" class="form-signin-heading">Create an account</h1>-->
+	{% if form.errors %}
+		<p style="color: red;">
+			Please correct the error{{ form.errors|pluralize }} below.
+		</p>
+	{% endif %}
+	{% for item in error %}
+		<p style="color:#ff0000;">{{item}}</p>
+	{% endfor %}
+
+    <!--
+	<form action="" method="post" class = "form-signin" role="form">
+		<table>
+		</table>
+		<input type="submit" value="Register">
+	</form>-->
+    <div class="graphs">
+					<div class="sign-up">
+						<h3>Register Here</h3>
+						<p class="creating">Having hands on experience in creating innovative designs,I do offer design
+							solutions which harness.</p>
+						<h5>Personal Information</h5>
+                        <form action="" method="post" class = "form-signin" role="form">
+                            {% csrf_token %}
+						<div class="sign-u">
+							<div class="sign-up1">
+								<h4>Your Name* :</h4>
+							</div>
+							<div class="sign-up2">
+
+									<input name="username" type="text" placeholder=" " required=" "/>
+
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+
+						<div class="sign-u">
+							<div class="sign-up1">
+								<h4>Email Address* :</h4>
+							</div>
+							<div class="sign-up2">
+
+									<input name="email" type="text" placeholder=" " required=" "/>
+
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<h6>Login Information</h6>
+						<div class="sign-u">
+							<div class="sign-up1">
+								<h4>Password* :</h4>
+							</div>
+							<div class="sign-up2">
+
+									<input name="password" type="password" placeholder=" " required=" "/>
+
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+						<div class="sign-u">
+							<div class="sign-up1">
+								<h4>Confirm Password* :</h4>
+							</div>
+							<div class="sign-up2">
+
+									<input name="password2" type="password" placeholder=" " required=" "/>
+
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+
+                        <div class="sign-u">
+									<h4>Captcha:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input name="captcha" type="text" placeholder=" " required=" "/>
+                                <img onclick="this.setAttribute('src','/regist/captcha/?nocache='+Math.random());" src="/regist/captcha/" alt="Captcha"/></h4>
+                            <div class="clearfix"> </div>
+						</div>
+
+
+                            <div class="sign-u">
+							<div class="sign-up1">
+								<h4>Slider:</h4>
+							</div>
+
+							<div class="sign-up2">
+                            <link href="/static/css/slide-unlock.css" rel="stylesheet">
+  <div id="slider">
+    <div id="slider_bg"></div>
+    <span id="label"> >></span><span id="labelTip">拖动滑块验证</span> </div>
+     <script src="/static/js/jquery-1.10.2.min.js"></script>
+  <script src="/static/js/jquery.slideunlock.js"></script>
+  <script  type="text/javascript" >
+    $(function () {
+        var slider = new SliderUnlock("#slider",{
+				successLabelTip : "验证成功"
+			},function(){
+                document.cookie="is_yanzhen="+"is";
+            	//window.location.href="http://www.sucaijiayuan.com"
+        	});
+        slider.init();
+    })
+</script>
+                                    </div>
+                            </div>
+
+                            <div class="clearfix"> </div>
+
+						<div class="sub_home">
+							<div class="sub_home_left">
+									<input type="submit" value="Submit">
+							</div>
+							<div class="sub_home_right">
+								<p>Go Back to <a href="index.html">Home</a></p>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+                            </form>
+					</div>
+				</div>
+
+
+
+
+
+{% endblock public_list %}
